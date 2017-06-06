@@ -126,7 +126,13 @@ class CabCustomerTransit extends Model implements CabCustomerTransitContract
      */
     public function end(int $transitId)
     {
-        $pricing    = new Pricing($this->find($transitId));
+        $transit    = $this->find($transitId);
+
+        if (empty($transit)) {
+            return true;
+        }
+
+        $pricing    = new Pricing();
 
         return $this->find($transitId)->update([
             'ended_at'      => Carbon::now(),
