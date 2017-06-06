@@ -86,7 +86,13 @@ class CabCustomerTransit extends Model implements CabCustomerTransitContract
      */
     public function start(int $transitId)
     {
-        return $this->find($transitId)->update([
+        $transit    = $this->find($transitId);
+
+        if (empty($transit)) {
+            return true;
+        }
+
+        return $transit->update([
             'started_at'    => Carbon::now(),
             'status'        => 'started',
             'updated_at'    => Carbon::now()
