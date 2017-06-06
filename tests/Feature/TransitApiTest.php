@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Models\CabCustomerTransit;
 use Carbon\Carbon;
 use Tests\TestCase;
+use App\Models\CabCustomerTransit;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -30,7 +30,7 @@ class TransitApiTest extends TestCase
     public function getAllTransitsApi()
     {
         $this->getTransitId();
-        
+
         $this
             ->get($this->uri)
             ->assertStatus(200)
