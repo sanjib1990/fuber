@@ -120,10 +120,10 @@ class Cab extends Model implements CabContract
         $cabs   = $this;
 
         if (data_get($data, 'available')) {
-            $cabs->where('available', true);
+            $cabs   = $cabs->where('available', true);
         }
 
-        return $this->get();
+        return $cabs->get();
     }
 
     /**

@@ -37,12 +37,35 @@ class CustomerController extends Controller
      */
     public function get(CustomerContract $customer)
     {
+        if (request()->id) {
+            return $this->getById($customer);
+        }
+
         $customers  = $customer->getList(request()->all());
 
         return response()->jsend(
             $this
                 ->transformer
                 ->process($customers, new CustomersTransformer()),
+            trans('api.success')
+        );
+    }
+
+    /**
+     * Get specific customer detail.
+     *
+     * @param CustomerContract $customer
+     *
+     * @return mixed
+     */
+    private function getById(CustomerContract $customer)
+    {
+        $customer   = $customer->getById(request()->id);
+
+        return response()->jsend(
+            $this
+                ->transformer
+                ->process($customer, new CustomersTransformer()),
             trans('api.success')
         );
     }

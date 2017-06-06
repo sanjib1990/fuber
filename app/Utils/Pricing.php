@@ -38,7 +38,7 @@ class Pricing implements PricingContract
         return round(
             sqrt(
                 pow($this->transit->from_lat - $this->transit->to_lat, 2)
-                + pow($this->transit->from_lan - $this->transit->to_lan, 2)
+                + pow($this->transit->from_lng - $this->transit->to_lng, 2)
             ),
             2
         );

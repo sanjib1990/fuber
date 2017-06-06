@@ -17,4 +17,13 @@ interface CustomerContract
      * @return mixed
      */
     public function getList(array $data);
+
+    /**
+     * Get Customer by id.
+     *
+     * @param int $customerId
+     *
+     * @return mixed
+     */
+    public function getById(int $customerId);
 }

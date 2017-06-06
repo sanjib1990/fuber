@@ -1,51 +1,125 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+## Requirement
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+> PHP 7
 
-## About Laravel
+> Mysql >= 5.6
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+> Composer
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Steps
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb combination of simplicity, elegance, and innovation give you tools you need to build any application with which you are tasked.
+> Clone the code base
 
-## Learning Laravel
+> run `composer install` in terminal
 
-Laravel has the most extensive and thorough documentation and video tutorial library of any modern web application framework. The [Laravel documentation](https://laravel.com/docs) is thorough, complete, and makes it a breeze to get started learning the framework.
+> copy `env.example` as `.env` and change the database configuration
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 900 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+> run `php artisan migrate --seed`
 
-## Laravel Sponsors
+## Folder Structure
+- `app/Contracts` Contains all the interfaces used in various classes
+- `app/Exceptions` Contains the custom exception classes
+- `app/Http/Controllers` Contains the Controllers
+- `app/Http/Middeware` Contains the middleware for the HTTP request
+- `app/Http/Requests` Contains the Request validation classes
+- `app/Models` Contains all the Models
+- `app/Providers/AppServiceProvider.php` has the code for bootstraping various classes and objects, 
+binding between interface and models.
+- `app/Transformers` contains all the transformers used to transform data before sending response.
+- `app/Utils` contains additional classes used to support the app.
+- `config/location.php` has the dummy locations
+- `resources/lang/en/api.php` has the code for translation..
+- `routes/api.php` has the code for api routing
+- `tests` has the classes for unit test and functional test
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](http://patreon.com/taylorotwell):
+## Postman Collection Link
+    https://www.getpostman.com/collections/3537e70283e07a84464c
 
-- **[Vehikl](http://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Styde](https://styde.net)**
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
+## API
 
-## Contributing
+All apis are prefixed with `/api/v1`
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+All Api should have the following request headers
 
-## Security Vulnerabilities
+    Content-Type : application/json
+    Accept: application/json
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+- GET `/customers`:
+    
+    List the cutomers
 
-## License
+- GET `/customers/{customer id}`:
+    
+    Get a specific customer details
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+- GET `/cabs`:
+    
+    Get list of cabs. Optional parameter
+        
+        includes: This param is used for lazy loading. The possible values for this API are 
+            
+            - type : refers to the type of cab
+        
+        available: This params is used to filter cabs which are current available. Value is only 'true'
+        
+- GET `/cabs/{cab id}`:
+
+    Get Details of a specific cab. Optional parameter
+    
+        includes: This param is used for lazy loading. The possible values for this API are 
+            
+            - type : refers to the type of cab
+         
+- GET `/cabs/nearby`:
+
+    Get nearby available cabs. Params:
+        
+        includes: Optional. This param is used for lazy loading. The possible values for this API are 
+        
+            - type : refers to the type of cab
+        
+        lat: required. Lattitude of the customer.
+        lng: required. Longitude of the customer.
+        radius: optional.Radius in which the cabs needs to be searched.
+        cab_type_id: optional. Type of cab. can be checked in cab type API
+        
+- GET `/cabs/transits`:
+
+    Get list of transits.
+        
+        includes: Optional. comma separated values (without any space in between). This param is used for lazy loading. The possible values for this API are 
+        
+            - cab : refers to the cab which was in the transit
+            - customer: refers to the customer who was in the transit.
+            
+- GET `/cabs/transits/{transit id}`:
+
+    Get the specific transit details.
+        
+        includes: Optional. comma separated values (without any space in between). This param is used for lazy loading. The possible values for this API are 
+                
+            - cab : refers to the cab which was in the transit
+            - customer: refers to the customer who was in the transit.
+
+- POST `/cabs/book`:
+    
+    Book a cab. Params:
+        
+        - customer_id
+        - cab_id
+        - from_lat
+        - from_lng
+        - to_lat
+        - to_lng
+        - includes: Optional. comma separated values (without any space in between). This param is used for lazy loading. The possible values for this API are       
+            
+            - cab : refers to the cab which was in the transit
+            - customer: refers to the customer who was in the transit.
+
+- PATCH `/cabs/transits/{transit id}/start`:
+    
+    Start the transit/journey
+
+- PATCH `/cabs/transits/{transit id}/end`:
+
+    End the transit/journey

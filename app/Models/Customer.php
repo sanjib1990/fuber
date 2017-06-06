@@ -46,4 +46,16 @@ class Customer extends Model implements CustomerContract
     {
         return $this->get();
     }
+
+    /**
+     * Get Customer by id.
+     *
+     * @param int $customerId
+     *
+     * @return mixed
+     */
+    public function getById(int $customerId)
+    {
+        return  $this->find($customerId);
+    }
 }
