@@ -29,6 +29,8 @@ class TransitApiTest extends TestCase
      */
     public function getAllTransitsApi()
     {
+        $this->getTransitId();
+        
         $this
             ->get($this->uri)
             ->assertStatus(200)
