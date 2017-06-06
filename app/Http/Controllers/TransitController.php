@@ -101,11 +101,13 @@ class TransitController extends Controller
         // Get the cab id.
         $transit    = $transit->getById(request()->transitId);
 
-        // unblock the cab
-        $cab->unblock($transit->cab_id);
+        if (! empty($transit)) {
+            // unblock the cab
+            $cab->unblock($transit->cab_id);
 
-        // update the current location of the cab
-        $cab->updateCurrentLocation($transit->cab_id, $transit->to_lat, $transit->to_lng);
+            // update the current location of the cab
+            $cab->updateCurrentLocation($transit->cab_id, $transit->to_lat, $transit->to_lng);
+        }
 
         return response(null, 205);
     }
